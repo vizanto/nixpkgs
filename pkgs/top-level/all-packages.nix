@@ -5260,6 +5260,8 @@ let
 
   junit = callPackage ../development/libraries/java/junit { };
 
+  jzmq = callPackage ../development/libraries/java/jzmq { };
+
   lucene = callPackage ../development/libraries/java/lucene { };
 
   mockobjects = callPackage ../development/libraries/java/mockobjects { };

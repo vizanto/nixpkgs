@@ -14,6 +14,7 @@
   bbenoist = "Baptist BENOIST <return_0@live.com>";
   bjg = "Brian Gough <bjg@gnu.org>";
   bluescreen303 = "Mathijs Kwik <mathijs@bluescreen303.nl>";
+  blue = "Danny Wilson <danny@prime.vc>";
   chaoflow = "Florian Friesdorf <flo@chaoflow.net>";
   coconnor = "Corey O'Connor <coreyoconnor@gmail.com>";
   eelco = "Eelco Dolstra <eelco.dolstra@logicblox.com>";
