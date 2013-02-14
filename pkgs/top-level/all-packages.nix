@@ -5631,7 +5631,7 @@ let
   });
   squid = squids.squid31; # has ipv6 support
 
-  storm = callPackage ../servers/computing/storm { confDir = "/etc/storm"; logsDir = "/var/log"; };
+  storm = callPackage ../servers/computing/storm { };
 
   tomcat5 = callPackage ../servers/http/tomcat/5.0.nix { };
 
