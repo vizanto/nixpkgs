@@ -1,14 +1,20 @@
-{ stdenv, fetchurl, pkgconfig, dbus_glib, libxml2, libxslt, getopt, nixStable, dysnomia, libintlOrEmpty, libiconvOrEmpty }:
+{ stdenv, fetchgit, pkgconfig, dbus_glib, libxml2, libxslt, getopt, nixStable, dysnomia, libintlOrEmpty, libiconvOrEmpty, automake, autoconf, libtool }:
 
 stdenv.mkDerivation {
-  name = "disnix-0.3pre24d959b3b37ce285971810245643a7f18cb85fcc";
+  name = "disnix-0.3-git-4d1b19cf4c";
   
-  src = fetchurl {
-    url = http://hydra.nixos.org/build/13462853/download/4/disnix-0.3pre24d959b3b37ce285971810245643a7f18cb85fcc.tar.gz;
-    sha256 = "408707ce29497dae6c960af0e4874659a7da6a5fd49629ebe0d8c167f0dbf19a";
+  src = fetchgit {
+    url = http://github.com/vizanto/disnix.git;
+    rev = "4d1b19cf4c032cfb3584438c2591ef1fdbc0d6d9";
+    sha256 = "a8cd129173aa439c53eda584f76b72d514f43083d2cea9851cf5becb81d2dd49";
   };
   
-  buildInputs = [ pkgconfig dbus_glib libxml2 libxslt getopt nixStable libintlOrEmpty libiconvOrEmpty dysnomia ];
+  buildInputs = [ pkgconfig dbus_glib libxml2 libxslt getopt nixStable libintlOrEmpty libiconvOrEmpty dysnomia automake autoconf libtool ];
+
+  preConfigure = ''
+    sed -e 's|doc||' -i Makefile.am
+    ./bootstrap
+  '';
 
   dontStrip = true;
   
