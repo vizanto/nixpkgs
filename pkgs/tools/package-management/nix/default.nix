@@ -39,6 +39,8 @@ let
 
     makeFlags = "profiledir=$(out)/etc/profile.d";
 
+    patches = stdenv.lib.optional stdenv.isSunOS [ ./solaris.patch ];
+
     installFlags = "sysconfdir=$(out)/etc";
 
     doInstallCheck = false;
