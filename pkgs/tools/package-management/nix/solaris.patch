@@ -1,0 +1,45 @@
+diff --git a/configure.ac b/configure.ac
+index 88e6457..bade079 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -48,6 +48,7 @@ test "$localstatedir" = '${prefix}/var' && localstatedir=/nix/var
+ 
+ 
+ # Solaris-specific stuff.
++AC_STRUCT_DIRENT_D_TYPE
+ if test "$sys_name" = sunos; then
+     # Solaris requires -lsocket -lnsl for network functions
+     LIBS="-lsocket -lnsl $LIBS"
+diff --git a/src/libutil/util.cc b/src/libutil/util.cc
+index 27116fd..d1b67c6 100644
+--- a/src/libutil/util.cc
++++ b/src/libutil/util.cc
+@@ -232,7 +232,11 @@ DirEntries readDirectory(const Path & path)
+         checkInterrupt();
+         string name = dirent->d_name;
+         if (name == "." || name == "..") continue;
++#ifdef HAVE_STRUCT_DIRENT_D_TYPE
+         entries.emplace_back(name, dirent->d_ino, dirent->d_type);
++#else
++        entries.emplace_back(name, dirent->d_ino, getFileType(absPath(name, path)));
++#endif
+     }
+     if (errno) throw SysError(format("reading directory ‘%1%’") % path);
+ 
+diff --git a/src/libutil/util.hh b/src/libutil/util.hh
+index 0388388..2edc534 100644
+--- a/src/libutil/util.hh
++++ b/src/libutil/util.hh
+@@ -11,6 +11,12 @@
+ 
+ #include <cstdio>
+ 
++#ifndef HAVE_STRUCT_DIRENT_D_TYPE
++#define DT_UNKNOWN 0
++#define DT_REG 1
++#define DT_LNK 2
++#define DT_DIR 3
++#endif
+ 
+ namespace nix {
+ 
